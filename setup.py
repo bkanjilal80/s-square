@@ -22,9 +22,9 @@ setup(
     description="It squares the number",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/uditvashisht/saral-square",
-    author="Udit Vashisht",
-    author_email="admin@saralgyaan.com",
+      url="https://github.com/bkanjilal80/s-squaree",
+    author="Bhaskar K",
+    author_email="bkanjilal80@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
