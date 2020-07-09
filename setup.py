@@ -22,7 +22,7 @@ setup(
     description="It squares the number",
     long_description=README,
     long_description_content_type="text/markdown",
-      url="https://github.com/bkanjilal80/s-squaree",
+      url="https://github.com/bkanjilal80/s-square",
     author="Bhaskar K",
     author_email="bkanjilal80@gmail.com",
     license="MIT",
