@@ -41,7 +41,7 @@ output : A hyper parameter tuned model object
 Let's set up a parameter grid that will be explored during the search. Note that you can use fewer parameters and fewer options for each parameter. Same goes for more parameter and more options if you want to be very thorough. Also, you can plug in any other ML method instead of XGBoost and search for its optimal parameters.
 
 '''python
- knn_parameters = {'n_neighbors': [50, 100, 200, 250, 300, 350],
+        knn_parameters = {'n_neighbors': [50, 100, 200, 250, 300, 350],
                               'weights': ['uniform', 'distance'],
                               'algorithm': ['ball_tree', 'kd_tree'],
                               'leaf_size': [20, 25, 30, 35, 40, 45, 50],
@@ -62,7 +62,7 @@ y_train : Target Column of Training DataSet
 ##### This first section is setting up the grid and importing the necessary modules and fitting X_train and y_train
 
 '''python
-self.model = RandomForestRegressor(n_estimators=n_estimators,
+        self.model = RandomForestRegressor(n_estimators=n_estimators,
                                                max_depth=max_depth,
                                                criterion=criterion,
                                                min_samples_leaf=min_samples_leaf,
@@ -123,10 +123,9 @@ self.xg_parameters = {"n_estimators": [10, 50, 100, 200],
 ### Fitting X_train and y_train
 
 '''python
-         self.xgboost_model = xgb.XGBRegressor(objective='reg:squarederror',n_jobs=-1)
-            self.xgboost_model.fit(x_train, y_train)
-            self.logger_object.log(self.file_object,
-                                   "Xgboost Model Training Started.")
-;;;                                   
+                 self.xgboost_model = xgb.XGBRegressor(objective='reg:squarederror',n_jobs=-1)
+                self.xgboost_model.fit(x_train, y_train)
+                self.logger_object.log(self.file_object,"Xgboost Model Training Started.")
+'''                               
                                    
                                    
