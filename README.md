@@ -1,114 +1,132 @@
-#### This class shall be used to save the model after training and load the saved model for prediction.
-# class FileOperation:
-```python    
-    def __init__(self):
-        self.file_object = open('logs/fileOperationLogs.txt', 'a+')
-        self.logger_object = AppLogger()
-        self.model_directory = 'models/'
-       
-```
+# Regression models
 
-#### Save the model file to directory then entered the save_model method of the File_Operation class.create seperate directory for each cluster and remove previously existing models for each clusters then saving the model to file
-
-Description: Save the model file to directory
-
-Outcome: File gets saved
-
-On Failure: Raise Exception
-
-```python
-def save_model(self, model, filename):
-    self.logger_object.log(self.file_object, 'Entered the save_model method of the File_Operation class')
-        try:
-            path = os.path.join(self.model_directory, filename)  # create seperate directory for each cluster
-            if os.path.isdir(path):  # remove previously existing models for each clusters
-                shutil.rmtree(self.model_directory)
-                os.makedirs(path)
-            else:
-                os.makedirs(path)  #
-            with open(path + '/' + filename + '.sav',
-                      'wb') as f:
-                pickle.dump(model, f)  # save the model to file
-            self.logger_object.log(self.file_object,
-                                   'Model File ' + filename + ' saved. Exited the save_model method of the Model_Finder class')
-
-            return 'success'
-        except Exception as e:
-            self.logger_object.log(self.file_object,
-                                   'Exception occured in save_model method of the Model_Finder class. Exception message:  ' + str(
-                                       e))
-            self.logger_object.log(self.file_object,
-                                   'Model File ' + filename + ' could not be saved. Exited the save_model method of the Model_Finder class')
-            raise Exception()
-```
-#### Entered the load_model method of the File_Operation class 
-
-## Method Name: find_correct_model_file
-
-Description: Select the correct model based on cluster number
-
-Output: The Model file
-
-On Failure: Raise Exception
-     
-```python     
-    def find_correct_model_file(self, cluster_number):
-    self.logger_object.log(self.file_object,
-                               'Entered the find_correct_model_file method of the File_Operation class')
-        try:
-            self.cluster_number = cluster_number
-            self.folder_name = self.model_directory
-            self.list_of_model_files = []
-            self.list_of_files = os.listdir(self.folder_name)
-            for self.file in self.list_of_files:
-                try:
-                    if (self.file.index(str(self.cluster_number)) != -1):
-                        self.model_name = self.file
-                except:
-                    continue
-            self.model_name = self.model_name.split('.')[0]
-            self.logger_object.log(self.file_object,
-                                   'Exited the find_correct_model_file method of the Model_Finder class.')
-            return self.model_name
-        except Exception as e:
-            self.logger_object.log(self.file_object,
-                                   'Exception occured in find_correct_model_file method of the Model_Finder class. Exception message:  ' + str(
-                                       e))
-            self.logger_object.log(self.file_object,
-                                   'Exited the find_correct_model_file method of the Model_Finder class with Failure')
-            raise Exception()
-```
-
-#Logger
-
-## When you want to configure logging for your project, you should do it as soon as possible when the program starts. If app.logger is accessed before logging is configured, it will add a default handler. If possible, configure logging before creating the application object.
+## Setup
 
 '''python
-class AppLogger:
-    def __init__(self):
-        self.now = datetime.now()
-        self.date = self.now.date()
-        self.current_time = self.now.strftime("%H:%M:%S")
-
-    def log(self, file_object, log_message):
-        """This method will be used for logger all the information to the file."""
-
-        file_object.write(
-            str(self.date) + "/" + str(self.current_time) + "\t\t" + log_message + "\n")
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import RandomizedSearchCV
+from sklearn.metrics import r2_score, mean_squared_error
+import xgboost as xgb
+from sklearn.neighbors import KNeighborsRegressor
+import logger
 '''
 
+#### By subclassing the Model class: in that case, you should define your layers in __init__ and you should implement the model's forward pass in regressor.
 
+# class RegressionModelTuner():
 
+This class shall be used to get the best suited Regression model
 
+'''python
+def __init__(self):
+        self.file_object = open('RegressionLogs.txt', 'a+')
+        self.logger_object = logger.App_Logger()
+'''
 
+## Method Name : get_tuned_knn_model
+'''python
+def get_tuned_knn_model(self, x_train, y_train):
+'''
 
+Description : This method will be used to get the hypertuned KNN Model
 
+x_train : Feature Columns of Training DataSet
 
+y_train : Target Column of Training DataSet
 
+output : A hyper parameter tuned model object
 
+#### parameters
+Let's set up a parameter grid that will be explored during the search. Note that you can use fewer parameters and fewer options for each parameter. Same goes for more parameter and more options if you want to be very thorough. Also, you can plug in any other ML method instead of XGBoost and search for its optimal parameters.
 
+'''python
+ knn_parameters = {'n_neighbors': [50, 100, 200, 250, 300, 350],
+                              'weights': ['uniform', 'distance'],
+                              'algorithm': ['ball_tree', 'kd_tree'],
+                              'leaf_size': [20, 25, 30, 35, 40, 45, 50],
+                              }
+'''
 
+## Method Name: get_tuned_random_forest_classifier
 
+Description: This method will be used to build RandomForestRegressor model
 
+Input Description:
 
-```
+x_train : Feature Columns of Training DataSet
+
+y_train : Target Column of Training DataSet
+
+##### Let's try hyperparameter tuning on the all features data
+##### This first section is setting up the grid and importing the necessary modules and fitting X_train and y_train
+
+'''python
+self.model = RandomForestRegressor(n_estimators=n_estimators,
+                                               max_depth=max_depth,
+                                               criterion=criterion,
+                                               min_samples_leaf=min_samples_leaf,
+                                               max_features=max_features,
+                                               min_samples_split=min_samples_split,
+                                               bootstrap=bootstrap,
+                                               random_state=25,
+                                               n_jobs=-1)
+
+self.model = RandomForestRegressor(n_jobs=-1)
+self.model.fit(x_train, y_train)
+self.logger_object.log(self.file_object,
+'''
+## Method Name: get_tuned_xgboost_model
+
+Description: This method will be used to build XGBoost Regressor model
+
+Input Description:
+
+x_train : Feature Columns of Training DataSet
+
+y_train : Target Column of Training DataSet
+
+Parameters
+
+'''python
+self.xg_parameters = {"n_estimators": [10, 50, 100, 200],
+                                  "learning_rate": [0.05, 0.10, 0.15, 0.20, 0.25, 0.30],
+                                  "max_depth": [3, 4, 5, 6, 8, 10, 12, 15, 20],
+                                  "min_child_weight": [1, 3, 5, 7],
+                                  "gamma": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5],
+                                  "colsample_bytree": [0.3, 0.4, 0.5, 0.7]
+                                  }
+
+            self.rmdsearch = RandomizedSearchCV(xgb.XGBRegressor(objective='reg:squarederror'),param_distributions=self.xg_parameters, n_iter=10, cv=10, n_jobs=-1)
+            self.rmdsearch.fit(x_train, y_train)
+            hyperparameters = self.rmdsearch.best_params_
+            n_estimators, min_child_weight, max_depth, learning_rate, gamma, colsample_bytree = hyperparameters[
+                                                                                                    'n_estimators'], \
+                                                                                                hyperparameters[
+                                                                                                    'min_child_weight'], \
+                                                                                                hyperparameters[
+                                                                                                    'max_depth'], \
+                                                                                                hyperparameters[
+                                                                                                    'learning_rate'], \
+                                                                                                hyperparameters[
+                                                                                                    'gamma'], \
+                                                                                                hyperparameters[
+                                                                                                    'colsample_bytree']
+            self.xgboost_model = xgb.XGBRegressor(n_estimators=n_estimators,
+                                               learning_rate=learning_rate,
+                                               gamma=gamma,
+                                               min_child_weight=min_child_weight,
+                                               max_depth=max_depth,
+                                               colsample_bytree=colsample_bytree)
+...
+
+### Fitting X_train and y_train
+
+'''python
+         self.xgboost_model = xgb.XGBRegressor(objective='reg:squarederror',n_jobs=-1)
+            self.xgboost_model.fit(x_train, y_train)
+            self.logger_object.log(self.file_object,
+                                   "Xgboost Model Training Started.")
+;;;                                   
+                                   
+                                   
