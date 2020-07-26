@@ -19,9 +19,11 @@ import logger
 This class shall be used to get the best suited Regression model
 
 '''python
+
 def __init__(self):
         self.file_object = open('RegressionLogs.txt', 'a+')
         self.logger_object = logger.App_Logger()
+
 '''
 
 ## Method Name : get_tuned_knn_model
