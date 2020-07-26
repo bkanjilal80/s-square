@@ -1,8 +1,6 @@
 #### This class shall be used to save the model after training and load the saved model for prediction.
-
-```python
-class FileOperation:
-    
+# class FileOperation:
+```python    
     def __init__(self):
         self.file_object = open('logs/fileOperationLogs.txt', 'a+')
         self.logger_object = AppLogger()
