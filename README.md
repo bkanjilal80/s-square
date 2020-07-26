@@ -11,10 +11,10 @@ class FileOperation:
 ```
 
 #### Save the model file to directory then entered the save_model method of the File_Operation class.create seperate directory for each cluster and remove previously existing models for each clusters then saving the model to file
-   
-   Description: Save the model file to directory
-   Outcome: File gets saved
-   On Failure: Raise Exception
+
+Description: Save the model file to directory
+Outcome: File gets saved
+On Failure: Raise Exception
 
 ```python
 def save_model(self, model, filename):
@@ -43,7 +43,7 @@ def save_model(self, model, filename):
 ```
 #### Entered the load_model method of the File_Operation class 
 
-Method Name: find_correct_model_file
+## Method Name: find_correct_model_file
 Description: Select the correct model based on cluster number
 Output: The Model file
 On Failure: Raise Exception
