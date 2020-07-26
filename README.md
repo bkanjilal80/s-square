@@ -2,7 +2,7 @@
 
 ## Setup
 
-'''python
+```python
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import RandomizedSearchCV
@@ -10,7 +10,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 import xgboost as xgb
 from sklearn.neighbors import KNeighborsRegressor
 import logger
-'''
+```
 
 #### By subclassing the Model class: in that case, you should define your layers in __init__ and you should implement the model's forward pass in regressor.
 
