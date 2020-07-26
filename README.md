@@ -43,14 +43,14 @@ def save_model(self, model, filename):
 ```
 #### Entered the load_model method of the File_Operation class 
 
-     Method Name: find_correct_model_file
-     Description: Select the correct model based on cluster number
-     Output: The Model file
-     On Failure: Raise Exception
+Method Name: find_correct_model_file
+Description: Select the correct model based on cluster number
+Output: The Model file
+On Failure: Raise Exception
      
 ```python     
-def find_correct_model_file(self, cluster_number):
-self.logger_object.log(self.file_object,
+    def find_correct_model_file(self, cluster_number):
+    self.logger_object.log(self.file_object,
                                'Entered the find_correct_model_file method of the File_Operation class')
         try:
             self.cluster_number = cluster_number
@@ -79,6 +79,7 @@ self.logger_object.log(self.file_object,
 #Logger
 
 ## When you want to configure logging for your project, you should do it as soon as possible when the program starts. If app.logger is accessed before logging is configured, it will add a default handler. If possible, configure logging before creating the application object.
+
 '''python
 class AppLogger:
     def __init__(self):
